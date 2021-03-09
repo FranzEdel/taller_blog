@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProductoController;
 
-
+use App\Http\Controllers\Web\PageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,61 +16,11 @@ use App\Http\Controllers\ProductoController;
 |
 */
 
-Route::get('/', function () {
-    //return view('welcome');
-    return 'Hola desde las rutas';
-});
+Route::redirect('/', '/blog');
 
+Auth::routes();
 
-Route::get('/usuarios', function () {
-    return 'Pagina principal de los usuarios';
-});
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/usuarios/{nombre}/{id}', function ($nombre, $id) {
-    return 'Nombre de ususario: '.$nombre.' con el ID: '.$id;
-});
+Route::get('/blog', [PageController::class, 'blog'])->name('blog');
 
-Route::get('/usuarios2/{nombre}/{id?}', function ($nombre, $id = null) {
-    
-    if($id)
-    {
-        return 'Nombre de ususario: '.$nombre.' con el ID: '.$id;
-    } else {
-        return 'Nombre de ususario: '.$nombre.' con el ID: NULO';
-    }
-    
-});
-
-
-Route::get('/usuarios3/{nombre}/{id?}', function ($nombre, $id = null) {
-    
-    if($id)
-    {
-        return 'Nombre de ususario: '.$nombre.' con el ID: '.$id;
-    } else {
-        return 'Nombre de ususario: '.$nombre.' con el ID: NULO';
-    }
-    
-})->where(['nombre' => '[A-Za-z]+', 'id' => '[0-9]+']);
-
-
-
-
-Route::get('/redirigirprueba', function () {
-    return redirect()->route('prueba');
-});
-
-Route::get('/prueba', function () {
-    return 'Pagina principal de Prueba';
-});
-
-
-Route::redirect('/reusuarios', '/usuarios');
-
-
-
-Route::get('/productos', [ProductoController::class, 'index']);
-
-Route::get('/productos/create', [ProductoController::class, 'create']);
-
-Route::get('/productos/{id}', [ProductoController::class, 'show']);
