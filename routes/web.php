@@ -18,6 +18,10 @@ use App\Http\Controllers\Web\PageController;
 
 Route::redirect('/', '/blog');
 
+Route::get('/admin', function(){
+    return view('admin.dashboard');
+})->name('dashboard')->middleware('auth');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
