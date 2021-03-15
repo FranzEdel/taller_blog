@@ -16,14 +16,7 @@ use App\Http\Controllers\Web\PageController;
 |
 */
 
-//Route::redirect('/', '/blog');
-Route::get('/', function(){
-    return view('layouts.plantilla');
-});
-
-Route::get('/admin', function(){
-    return view('admin.dashboard');
-});
+Route::redirect('/', '/blog');
 
 Auth::routes();
 
