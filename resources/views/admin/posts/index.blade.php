@@ -35,6 +35,7 @@
                               <tr>
                                 <th>ID</th>
                                 <th>Título</th>
+                                <th>Categoria</th>
                                 <th>Acciones</th>
                               </tr>
                               </thead>
@@ -43,7 +44,7 @@
                                 <tr>
                                     <td>{{ $post->id }}</td>
                                     <td>{{ $post->name }}</td>
-
+                                    <td>{{ $post->category->name }}</td>
                                     <td>
                                         <a href="#" class="btn btn-sm btn-info" title="Editar"><i class="fa fa-pencil-alt"></i></a>
                                         <a href="#" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times"></i></a>

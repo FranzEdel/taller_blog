@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
 
 use App\Http\Controllers\Web\PageController;
+use App\Http\Controllers\Admin\PostController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,9 +23,19 @@ Route::get('/admin', function(){
     return view('admin.dashboard');
 })->name('dashboard')->middleware('auth');
 
+Route::get('/admin/posts', [PostController::class, 'index'])->middleware('auth');
+
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/blog', [PageController::class, 'blog'])->name('blog');
 
+
+Route::get('/logout', function(){
+    auth()->logout();
+    Session()->flush();
+
+    return Redirect::to('/');
+})->name('logout');

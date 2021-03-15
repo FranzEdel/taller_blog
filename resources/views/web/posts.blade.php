@@ -25,9 +25,11 @@
                       <a href="#" class="text-uppercase c-green">Leer mas</a>
                   </div>
                   <div class="tags container-flex">
-                      <span class="tag c-gray-1 text-capitalize">#yosemite</span>
-                      <span class="tag c-gray-1 text-capitalize">#peak</span>
-                      <span class="tag c-gray-1 text-capitalize">#photo</span>
+                  @foreach($post->tags as $tag)
+                      <span class="tag c-gray-1 text-capitalize">#{{ $tag->name }}</span>
+                      <!-- <span class="tag c-gray-1 text-capitalize">#peak</span>
+                      <span class="tag c-gray-1 text-capitalize">#photo</span> -->
+                  @endforeach
                   </div>
               </footer>
           </div>
