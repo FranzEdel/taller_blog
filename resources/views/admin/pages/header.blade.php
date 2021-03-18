@@ -17,7 +17,7 @@
   <!-- DATATABLES -->
   
 
-  <link rel="stylesheet" href=" {{ asset('/adminlte/css/bootstrap-select.min.css') }}">
+  {{-- <link rel="stylesheet" href=" {{ asset('/adminlte/css/bootstrap-select.min.css') }}"> --}}
 
   @stack('styles')
 

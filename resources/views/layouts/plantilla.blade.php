@@ -21,10 +21,11 @@
 			<nav class="custom-wrapper" id="menu">
 				<div class="pure-menu"></div>
 				<ul class="container-flex list-unstyled">
-					<li><a href="index.html" class="text-uppercase">Home</a></li>
-					<li><a href="about.html" class="text-uppercase">About</a></li>
-					<li><a href="archive.html" class="text-uppercase">Archive</a></li>
-					<li><a href="contact.html" class="text-uppercase">Contact</a></li>
+					<li><a href="#" class="text-uppercase">Home</a></li>
+					<li><a href="#" class="text-uppercase">About</a></li>
+					<li><a href="#" class="text-uppercase">Archive</a></li>
+					<li><a href="#" class="text-uppercase">Contact</a></li>
+					<li><a href="{{ route('login') }}" class="text-uppercase">Login</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -46,10 +47,11 @@
 				<figure class="logo"><img src="img/logo.png" alt=""></figure>
 				<nav>
 					<ul class="container-flex space-center list-unstyled">
-						<li><a href="index.html" class="text-uppercase c-white">home</a></li>
-						<li><a href="about.html" class="text-uppercase c-white">about</a></li>
-						<li><a href="archive.html" class="text-uppercase c-white">archive</a></li>
-						<li><a href="contact.html" class="text-uppercase c-white">contact</a></li>
+						<li><a href="#" class="text-uppercase c-white">home</a></li>
+						<li><a href="#" class="text-uppercase c-white">about</a></li>
+						<li><a href="#" class="text-uppercase c-white">archive</a></li>
+						<li><a href="#" class="text-uppercase c-white">contact</a></li>
+						<li><a href="{{ route('login') }}" class="text-uppercase c-white">Login</a></li>
 					</ul>
 				</nav>
 				<div class="divider-2"></div>

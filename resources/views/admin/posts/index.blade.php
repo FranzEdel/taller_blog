@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -11,20 +11,24 @@
                 <!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-                        <li class="breadcrumb-item active">Post</li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('admin.posts.create') }}" class="btn btn-sm btn-success pull-right">
+                                <i class="fa fa-plus"></i> Nueva Reglamento
+                            </a>
+                        </li>
                     </ol>
+                    
                 </div>
                 <!-- /.col -->
             </div>
             <!-- /.row -->
         </div>
         <!-- /.container-fluid -->
-    </div>
+    </section>
     <!-- /.content-header -->
 
     <!-- Main content -->
-    <div class="content">
+    <section class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
@@ -34,8 +38,9 @@
                               <thead>
                               <tr>
                                 <th>ID</th>
-                                <th>Título</th>
                                 <th>Categoria</th>
+                                <th>Título</th>
+                                <th>Estracto</th>
                                 <th>Acciones</th>
                               </tr>
                               </thead>
@@ -43,11 +48,13 @@
                                 @foreach ($posts as $post)
                                 <tr>
                                     <td>{{ $post->id }}</td>
-                                    <td>{{ $post->name }}</td>
                                     <td>{{ $post->category->name }}</td>
+                                    <td>{{ $post->name }}</td>
+                                    <td>{{ $post->excerpt }}</td>
+
                                     <td>
-                                        <a href="#" class="btn btn-sm btn-info" title="Editar"><i class="fa fa-pencil-alt"></i></a>
-                                        <a href="#" class="btn btn-sm btn-danger" title="Eliminar"><i class="fa fa-times"></i></a>
+                                        <a href="#" class="btn btn-xs btn-info" title="Editar"><i class="fa fa-pencil-alt"></i></a>
+                                        <a href="#" class="btn btn-xs btn-danger" title="Eliminar"><i class="fa fa-times"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -63,7 +70,7 @@
             <!-- /.row -->
         </div>
         <!-- /.container-fluid -->
-    </div>
+    </section>
     <!-- /.content -->
 @endsection
 

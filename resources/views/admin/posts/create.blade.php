@@ -2,7 +2,7 @@
 
 @section('content')
 <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -21,17 +21,17 @@
             <!-- /.row -->
         </div>
         <!-- /.container-fluid -->
-    </div>
+    </section>
     <!-- /.content-header -->
 
     <!-- Main content -->
-    <div class="content">
+    <section class="content">
         <div class="container-fluid">
-        	<form action="{{ route('admin.posts.store') }}" method="POST">
+        	<form action="#" method="POST">
         		{{ csrf_field() }}
 	            <div class="row">
 	            	
-	                <div class="col-md-8">
+	                <div class="col-md-7">
 	                    <div class="card card-primary card-outline table-responsive">
 	                    	<div class="card-body">
 								
@@ -46,18 +46,25 @@
 									<input type="text" class="form-control" name="slug" id="permalink">
                     			</div>
 
-                    			<div class="form-group">
-                    				<label>Contenido completo de la publicación</label>
+								<div class="form-group">
+									<label>Etiquetas</label>
+									<select name="tags" id="tags" class="selectT form-control" multiple="multiple" data-placeholder="Seleciona una o mas etiquetas" style="width: 100%;">
+									   @foreach($tags as $tag)
+										<option value="{{ $tag->id }}">{{ $tag->name }}</option>
+									   @endforeach
+									</select>
+							   	</div>
+
+							   	<div class="form-group">
+									<label>Contenido completo de la publicación</label>
 									<textarea name="body" class="form-control" id="editor" placeholder="Contenido completo de la publicación"></textarea>
-                    			</div>
+								</div>
 
-
-								
-	                  		</div>
+							</div>
 	                    </div>
 	                </div>
 
-	                <div class="col-md-4">
+	                <div class="col-md-5">
 	                    <div class="card card-primary card-outline table-responsive">
 	                    	<div class="card-body">
 	                    		<div class="form-group">
@@ -78,14 +85,12 @@
 				                		@endforeach
 					                </select>
 				                </div>
-				                <div class="form-group">
-				                 	<label>Etiquetas</label>
-				                  	<select name="tags" id="tags" class="select2" multiple="multiple" data-placeholder="Seleciona una o mas etiquetas" style="width: 100%;">
-				                    	@foreach($tags as $tag)
-				                    		<option value="{{ $tag->id }}">{{ $tag->name }}</option>
-				                    	@endforeach
-				                  	</select>
-				                </div>
+
+								<div class="form-group">
+                    				<label>Imagen</label>
+									<input type="file" class="form-control" name="foto" id="foto">
+                    			</div>
+				               
 	                			<div class="form-group">
 	                				<label>Extracto de la publicación</label>
 									<textarea name="excerpt" class="form-control" rows="2" placeholder="Extracto de la publicación"></textarea>
@@ -104,16 +109,17 @@
         	</form>
         </div>
         <!-- /.container-fluid -->
-    </div>
+    </section>
     <!-- /.content -->
 @endsection
 
 @push('styles')
 	<link rel="stylesheet" href=" {{ asset('/adminlte/plugins/datepicker/tempusdominus-bootstrap-4.min.css') }}">
     <link rel="stylesheet" href=" {{ asset('/adminlte/plugins/select2/select2.min.css') }}">
+
     <style>
 		.ck-editor__editable_inline {
-		    min-height: 240px;
+		    min-height: 150px;
 		}
 	</style>
 @endpush
@@ -127,7 +133,9 @@
 	<script src="{{ asset('/adminlte/plugins/string-url-slug/jquery.stringtoslug.min.js') }}"></script>
 
     <script src="{{ asset('/adminlte/plugins/select2/select2.full.min.js') }}"></script>
+
     <script src="{{ asset('/adminlte/plugins/ckeditor/ckeditor.js') }}"></script>
+
     
     <script>
         ClassicEditor
@@ -139,14 +147,18 @@
 	                console.error( error );
 	        } );
     </script>
+
    	<script>
 	  $(function () {
 	    //Initialize Select2 Elements
 	    $('.select2').select2({
 		    placeholder: "-- Seleccine una categoria --",
 		    allowClear: true,
-		    language: "es"
-		})
+		    language: "es",
+			theme: "classic"
+		});
+
+		$('.selectT').select2();
     
 	  })
 	</script>

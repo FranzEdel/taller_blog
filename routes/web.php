@@ -19,11 +19,19 @@ use App\Http\Controllers\Admin\PostController;
 
 Route::redirect('/', '/blog');
 
+
+
 Route::get('/admin', function(){
     return view('admin.dashboard');
 })->name('dashboard')->middleware('auth');
 
-Route::get('/admin/posts', [PostController::class, 'index'])->middleware('auth');
+Route::get('/admin/posts', [PostController::class, 'index'])->middleware('auth')->name('admin.posts.index');
+
+Route::get('/admin/posts/create', [PostController::class, 'create'])->middleware('auth')->name('admin.posts.create');
+
+
+
+
 
 
 Auth::routes();
