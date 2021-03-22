@@ -21,8 +21,11 @@ class Post extends Model
         'excerpt',
         'body',
         'status',
+        'published_at',
         'foto'
     ];
+
+    protected $dates = ['published_at'];
 
     public function category()
     {

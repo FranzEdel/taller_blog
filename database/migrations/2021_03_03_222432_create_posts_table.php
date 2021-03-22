@@ -24,6 +24,7 @@ class CreatePostsTable extends Migration
             $table->mediumText('excerpt')->nullable();
             $table->text('body');
             $table->enum('status', ['PUBLISHED','DRAFT'])->default('DRAFT');
+            $table->timestamp('published_at')->nullable();
 
             $table->string('foto', 128)->nullable();
 

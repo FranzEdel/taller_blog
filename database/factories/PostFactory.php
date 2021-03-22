@@ -31,6 +31,7 @@ class PostFactory extends Factory
             'slug' => Str::slug($title),
             'excerpt' => $this->faker->text(200),
             'body' => $this->faker->text(500),
+            'published_at' => $this->faker->dateTimeBetween($startDate = '-3 years', $endDate = 'now', $timezone = null),
             'foto' => $this->faker->imageUrl($width = 750, $height = 350),
             'status' => $this->faker->randomElement($array = array('DRAFT','PUBLISHED')),
         ];

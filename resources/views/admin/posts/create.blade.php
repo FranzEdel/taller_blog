@@ -27,7 +27,7 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-        	<form action="#" method="POST">
+        	<form action="{{ route('admin.posts.store') }}" method="POST">
         		{{ csrf_field() }}
 	            <div class="row">
 	            	
@@ -38,26 +38,31 @@
 								<div class="form-group">
                     				<label>Titulo de la publicación</label>
                     				<input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-									<input type="text" class="form-control basic-usage" name="name" id="name" placeholder="Ingrese aquí el titulo de la publicación">
+									<input type="text" class="form-control basic-usage {{ $errors->has('name') ? 'is-invalid' : ''}}" name="name" id="name" placeholder="Ingrese aquí el titulo de la publicación">
+									{!! $errors->first('name', '<small class="text-danger">:message</small>') !!}
+									 
                     			</div>
 
                     			<div class="form-group">
                     				<label>Url Amigable</label>
-									<input type="text" class="form-control" name="slug" id="permalink">
+									<input type="text" class="form-control {{ $errors->has('slug') ? 'is-invalid' : ''}}" name="slug" id="permalink">
+									{!! $errors->first('slug', '<small class="text-danger">:message</small>') !!}
                     			</div>
 
 								<div class="form-group">
 									<label>Etiquetas</label>
-									<select name="tags" id="tags" class="selectT form-control" multiple="multiple" data-placeholder="Seleciona una o mas etiquetas" style="width: 100%;">
+									<select name="tags[]" id="tags" class="selectT form-control {{ $errors->has('tags') ? 'is-invalid' : ''}}" multiple="multiple" data-placeholder="Seleciona una o mas etiquetas" style="width: 100%;">
 									   @foreach($tags as $tag)
 										<option value="{{ $tag->id }}">{{ $tag->name }}</option>
 									   @endforeach
 									</select>
+									{!! $errors->first('tags', '<small class="text-danger">:message</small>') !!}
 							   	</div>
 
 							   	<div class="form-group">
 									<label>Contenido completo de la publicación</label>
-									<textarea name="body" class="form-control" id="editor" placeholder="Contenido completo de la publicación"></textarea>
+									<textarea name="body" class="form-control {{ $errors->has('body') ? 'is-invalid' : ''}}" id="editor" placeholder="Contenido completo de la publicación"></textarea>
+									{!! $errors->first('body', '<small class="text-danger">:message</small>') !!}
 								</div>
 
 							</div>
@@ -70,20 +75,22 @@
 	                    		<div class="form-group">
 	                    			<label>Fecha de publicación</label>
 					                <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-					                    <input type="text" name="published_at" class="form-control datetimepicker-input" data-target="#datetimepicker4"/>
+					                    <input type="text" name="published_at" class="form-control datetimepicker-input {{ $errors->has('published_at') ? 'is-invalid' : ''}}" data-target="#datetimepicker4"/>
 					                    <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
 					                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
 					                    </div>
 					                </div>
+									{!! $errors->first('published_at', '<small class="text-danger">:message</small>') !!}
 					            </div>
 				                <div class="form-group">
 				                	<label for="category_id">Categorías</label>
-					                <select name="category_id" id="category_id" class="form-control select2" style="width: 100%;" required>
+					                <select name="category_id" id="category_id" class="form-control select2 {{ $errors->has('category_id') ? 'is-invalid' : ''}}" style="width: 100%;">
 					                	<option></option>
 					                    @foreach($categories as $category)
 				                			<option value="{{ $category->id }}">{{ $category->name }}</option>
 				                		@endforeach
 					                </select>
+									{!! $errors->first('category_id', '<small class="text-danger">:message</small>') !!}
 				                </div>
 
 								<div class="form-group">
@@ -93,7 +100,8 @@
 				               
 	                			<div class="form-group">
 	                				<label>Extracto de la publicación</label>
-									<textarea name="excerpt" class="form-control" rows="2" placeholder="Extracto de la publicación"></textarea>
+									<textarea name="excerpt" class="form-control {{ $errors->has('excerpt') ? 'is-invalid' : ''}}" rows="2" placeholder="Extracto de la publicación"></textarea>
+									{!! $errors->first('excerpt', '<small class="text-danger">:message</small>') !!}
 	                			</div>
 
 	                			<div class="form-group">
