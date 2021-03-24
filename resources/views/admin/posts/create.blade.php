@@ -27,8 +27,14 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-        	<form action="{{ route('admin.posts.store') }}" method="POST">
-        		{{ csrf_field() }}
+			@if (Session::has('success'))
+				<div class="alert alert-success" role="alert">
+					<button type="button" class="close" data-dismiss="alert">x</button>
+					{{ Session::get('success') }}
+				</div>
+			@endif
+        	<form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
+        		@csrf
 	            <div class="row">
 	            	
 	                <div class="col-md-7">
@@ -38,22 +44,26 @@
 								<div class="form-group">
                     				<label>Titulo de la publicación</label>
                     				<input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
-									<input type="text" class="form-control basic-usage {{ $errors->has('name') ? 'is-invalid' : ''}}" name="name" id="name" placeholder="Ingrese aquí el titulo de la publicación">
+									<input type="text" class="form-control basic-usage {{ $errors->has('name') ? 'is-invalid' : ''}}" name="name" id="name" value="{{ old('name') }}" placeholder="Ingrese aquí el titulo de la publicación">
 									{!! $errors->first('name', '<small class="text-danger">:message</small>') !!}
 									 
                     			</div>
 
                     			<div class="form-group">
                     				<label>Url Amigable</label>
-									<input type="text" class="form-control {{ $errors->has('slug') ? 'is-invalid' : ''}}" name="slug" id="permalink">
+									<input type="text" class="form-control {{ $errors->has('slug') ? 'is-invalid' : ''}}" name="slug" id="permalink" value="{{ old('slug') }}">
 									{!! $errors->first('slug', '<small class="text-danger">:message</small>') !!}
                     			</div>
 
 								<div class="form-group">
 									<label>Etiquetas</label>
-									<select name="tags[]" id="tags" class="selectT form-control {{ $errors->has('tags') ? 'is-invalid' : ''}}" multiple="multiple" data-placeholder="Seleciona una o mas etiquetas" style="width: 100%;">
+									<select name="tags[]" 
+										id="tags" 
+										class="selectT form-control {{ $errors->has('tags') ? 'is-invalid' : ''}}" multiple="multiple" 
+										data-placeholder="Seleciona una o mas etiquetas" 
+										style="width: 100%;">
 									   @foreach($tags as $tag)
-										<option value="{{ $tag->id }}">{{ $tag->name }}</option>
+										<option {{ collect(old('tags'))->contains($tag->id) ? 'selected' : '' }} value="{{ $tag->id }}">{{ $tag->name }}</option>
 									   @endforeach
 									</select>
 									{!! $errors->first('tags', '<small class="text-danger">:message</small>') !!}
@@ -61,7 +71,7 @@
 
 							   	<div class="form-group">
 									<label>Contenido completo de la publicación</label>
-									<textarea name="body" class="form-control {{ $errors->has('body') ? 'is-invalid' : ''}}" id="editor" placeholder="Contenido completo de la publicación"></textarea>
+									<textarea name="body" class="form-control {{ $errors->has('body') ? 'is-invalid' : ''}}" id="editor" placeholder="Contenido completo de la publicación">{{ old('body') }}</textarea>
 									{!! $errors->first('body', '<small class="text-danger">:message</small>') !!}
 								</div>
 
@@ -75,7 +85,7 @@
 	                    		<div class="form-group">
 	                    			<label>Fecha de publicación</label>
 					                <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-					                    <input type="text" name="published_at" class="form-control datetimepicker-input {{ $errors->has('published_at') ? 'is-invalid' : ''}}" data-target="#datetimepicker4"/>
+					                    <input type="text" name="published_at" value="{{ old('published_at') }}" class="form-control datetimepicker-input {{ $errors->has('published_at') ? 'is-invalid' : ''}}" data-target="#datetimepicker4"/>
 					                    <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
 					                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
 					                    </div>
@@ -87,7 +97,7 @@
 					                <select name="category_id" id="category_id" class="form-control select2 {{ $errors->has('category_id') ? 'is-invalid' : ''}}" style="width: 100%;">
 					                	<option></option>
 					                    @foreach($categories as $category)
-				                			<option value="{{ $category->id }}">{{ $category->name }}</option>
+				                			<option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
 				                		@endforeach
 					                </select>
 									{!! $errors->first('category_id', '<small class="text-danger">:message</small>') !!}
@@ -95,12 +105,13 @@
 
 								<div class="form-group">
                     				<label>Imagen</label>
-									<input type="file" class="form-control" name="foto" id="foto">
+									<input type="file" class="form-control" name="foto" id="foto" onchange="previewFile(this)">
+									<img id="previewImg" style="max-width: 100px; margin-top: 20px;">
                     			</div>
 				               
 	                			<div class="form-group">
 	                				<label>Extracto de la publicación</label>
-									<textarea name="excerpt" class="form-control {{ $errors->has('excerpt') ? 'is-invalid' : ''}}" rows="2" placeholder="Extracto de la publicación"></textarea>
+									<textarea name="excerpt" class="form-control {{ $errors->has('excerpt') ? 'is-invalid' : ''}}" rows="2" placeholder="Extracto de la publicación">{{ old('excerpt') }}</textarea>
 									{!! $errors->first('excerpt', '<small class="text-danger">:message</small>') !!}
 	                			</div>
 
@@ -183,6 +194,20 @@
 		    $(".basic-usage").stringToSlug();
 		});
     </script>
+	<script>
+		function previewFile(input)
+		{
+			var file = $("input[type=file]").get(0).files[0];
+			if(file)
+			{
+				var reader = new FileReader();
+				reader.load = function(){
+					$('#previewImg').attr('src',reader.result);
+				}
+				reader.readerAsDataURL(file);
+			}
+		}
+	</script>
 
 @endpush
 

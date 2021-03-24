@@ -13,7 +13,7 @@
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item">
                             <a href="{{ route('admin.posts.create') }}" class="btn btn-sm btn-success pull-right">
-                                <i class="fa fa-plus"></i> Nueva Reglamento
+                                <i class="fa fa-plus"></i> Nuevo Articulo
                             </a>
                         </li>
                     </ol>
@@ -53,7 +53,8 @@
                                     <td>{{ $post->excerpt }}</td>
 
                                     <td>
-                                        <a href="#" class="btn btn-xs btn-info" title="Editar"><i class="fa fa-pencil-alt"></i></a>
+                                        <a href="{{ route('admin.posts.show',$post->id) }}" class="btn btn-xs btn-default" title="Ver"><i class="fa fa-eye"></i></a>
+                                        <a href="{{ route('admin.posts.edit',$post->id) }}" class="btn btn-xs btn-info" title="Editar"><i class="fa fa-pencil-alt"></i></a>
                                         <a href="#" class="btn btn-xs btn-danger" title="Eliminar"><i class="fa fa-times"></i></a>
                                     </td>
                                 </tr>
