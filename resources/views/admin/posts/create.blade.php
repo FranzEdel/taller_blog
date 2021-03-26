@@ -27,12 +27,6 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-			@if (Session::has('success'))
-				<div class="alert alert-success" role="alert">
-					<button type="button" class="close" data-dismiss="alert">x</button>
-					{{ Session::get('success') }}
-				</div>
-			@endif
         	<form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data">
         		@csrf
 	            <div class="row">
@@ -105,8 +99,8 @@
 
 								<div class="form-group">
                     				<label>Imagen</label>
-									<input type="file" class="form-control" name="foto" id="foto" onchange="previewFile(this)">
-									<img id="previewImg" style="max-width: 100px; margin-top: 20px;">
+									<input type="file" class="form-control" name="foto" id="foto" onchange="previewImage()">
+									<img id="preview" style="max-width: 100px; margin-top: 20px;">
                     			</div>
 				               
 	                			<div class="form-group">
@@ -195,20 +189,33 @@
 		});
     </script>
 	<script>
-		function previewFile(input)
-		{
-			var file = $("input[type=file]").get(0).files[0];
-			if(file)
-			{
-				var reader = new FileReader();
-				reader.load = function(){
-					$('#previewImg').attr('src',reader.result);
-				}
-				reader.readerAsDataURL(file);
-			}
-		}
+		function previewImage()
+    	{
+    		var file = document.getElementById('foto').files;
+    		if(file.length > 0)
+    		{
+    			var fileReader = new FileReader();
+    			fileReader.onload = function(event){
+    				//$('#previewImg').attr('src',reader.result);
+    				document.getElementById('preview').setAttribute("src", event.target.result);
+    			}
+    			fileReader.readAsDataURL(file[0]);
+    		}
+    	}
 	</script>
-
+	
+	@if (Session::has('success'))
+		<script>
+			Swal.fire({
+				position: 'center',
+				icon: 'success',
+				title: 'Correcto!',
+				text: '{{ Session::get('success') }}',
+				showConfirmButton: false,
+				timer: 3000
+			})
+		</script>
+	@endif
 @endpush
 
 

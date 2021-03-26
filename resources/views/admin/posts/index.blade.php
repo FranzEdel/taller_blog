@@ -44,22 +44,6 @@
                                 <th>Acciones</th>
                               </tr>
                               </thead>
-                              <tbody>
-                                @foreach ($posts as $post)
-                                <tr>
-                                    <td>{{ $post->id }}</td>
-                                    <td>{{ $post->category->name }}</td>
-                                    <td>{{ $post->name }}</td>
-                                    <td>{{ $post->excerpt }}</td>
-
-                                    <td>
-                                        <a href="{{ route('admin.posts.show',$post->id) }}" class="btn btn-xs btn-default" title="Ver"><i class="fa fa-eye"></i></a>
-                                        <a href="{{ route('admin.posts.edit',$post->id) }}" class="btn btn-xs btn-info" title="Editar"><i class="fa fa-pencil-alt"></i></a>
-                                        <a href="#" class="btn btn-xs btn-danger" title="Eliminar"><i class="fa fa-times"></i></a>
-                                    </td>
-                                </tr>
-                                @endforeach
-                              </tbody>
                             </table>
                           </div>
                           <!-- /.card-body -->
@@ -108,7 +92,15 @@
                 ],
                 language: {
                     search: "Buscar:"
-                }
+                },
+                "ajax": '{{ route("admin.posts.list") }}',
+                "columns": [
+                    {data: 'id'},
+                    {data: 'category_id'},
+                    {data: 'name'},
+                    {data: 'excerpt'},
+                    {data: 'actions'},
+                ],
             })
         });
     </script>

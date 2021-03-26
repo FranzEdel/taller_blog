@@ -13,8 +13,22 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::all();
-        return view('admin.posts.index', compact('posts'));
+        return view('admin.posts.index');
+    }
+
+    public function getPosts(Request $request)
+    {
+        return datatables()->of(Post::all())
+            ->addColumn('actions', function($post){
+                $actionBtn = '
+                    <a href="'. route('admin.posts.show',$post->id) .'" class="btn btn-xs btn-default" title="Ver"><i class="fa fa-eye"></i></a>
+                    <a href="'. route('admin.posts.edit',$post->id) .'" class="btn btn-xs btn-info" title="Editar"><i class="fa fa-pencil-alt"></i></a>
+                    <a href="javascript:void(0)" class="btn btn-xs btn-danger" title="Eliminar"><i class="fa fa-times"></i></a>
+                ';
+                return $actionBtn;
+            })
+            ->rawColumns(['actions'])
+            ->toJson(); 
     }
 
     public function show($id)

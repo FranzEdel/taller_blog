@@ -26,6 +26,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
     })->name('dashboard');
     
     Route::get('/posts', [PostController::class, 'index'])->name('admin.posts.index');
+    Route::get('/posts/list', [PostController::class, 'getPosts'])->name('admin.posts.list');
     Route::get('/posts/show/{id}', [PostController::class, 'show'])->name('admin.posts.show');
     Route::get('/posts/create', [PostController::class, 'create'])->name('admin.posts.create');
     Route::post('/posts', [PostController::class, 'store'])->name('admin.posts.store');
