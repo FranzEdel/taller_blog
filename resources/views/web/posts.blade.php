@@ -16,13 +16,15 @@
               
               <h1>{{ $post->name }}</h1>
               @if ($post->foto)
-              <figure><img src="{{ $post->foto }}" alt="" class="img-responsive"></figure>
+                <figure>
+                  <img src="{{ asset('img')}}/{{ $post->foto }}" alt="" class="img-responsive">
+                </figure>
               @endif
               <div class="divider"></div>
               <p>{{ $post->excerpt }}</p>
               <footer class="container-flex space-between">
                   <div class="read-more">
-                      <a href="#" class="text-uppercase c-green">Leer mas</a>
+                      <a href="{{ route('show', $post) }}" class="text-uppercase c-green">Leer mas</a>
                   </div>
                   <div class="tags container-flex">
                   @foreach($post->tags as $tag)

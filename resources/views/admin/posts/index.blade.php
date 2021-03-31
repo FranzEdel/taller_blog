@@ -96,7 +96,7 @@
                 "ajax": '{{ route("admin.posts.list") }}',
                 "columns": [
                     {data: 'id'},
-                    {data: 'category_id'},
+                    {data: 'category'},
                     {data: 'name'},
                     {data: 'excerpt'},
                     {data: 'actions'},

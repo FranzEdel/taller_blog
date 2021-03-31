@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 use App\Models\Tag;
-use App\Models\Category;
+
 use App\Models\User;
+use App\Models\Category;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {
@@ -27,6 +28,11 @@ class Post extends Model
 
     protected $dates = ['published_at'];
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -40,5 +46,13 @@ class Post extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function scopePublished($query)
+    {
+        $query->whereNotNull('published_at')
+        ->orderBy('published_at', 'DESC')
+        ->where('published_at', '<=', Carbon::now())
+        ->where('status','PUBLISHED');
     }
 }

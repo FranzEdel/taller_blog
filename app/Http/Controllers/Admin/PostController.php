@@ -27,14 +27,17 @@ class PostController extends Controller
                 ';
                 return $actionBtn;
             })
+            ->addColumn('category', function($post){
+                return $post->category->name;
+            })
             ->rawColumns(['actions'])
             ->toJson(); 
     }
 
     public function show($id)
     {
-        $id = $id;
-        return view('admin.posts.show', compact('id'));
+        $post = Post::find($id);
+        return view('admin.posts.show', compact('post'));
     }
 
     public function create()
@@ -84,7 +87,47 @@ class PostController extends Controller
 
     public function edit($id)
     {
-        $id = $id;
-        return view('admin.posts.edit', compact('id'));
+        $post = Post::find($id);
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('admin.posts.edit', compact('post','categories', 'tags'));
+    }
+
+    public function update(Request $request)
+    {
+        //dd($request->get('foto'));
+        // validaciones
+        $this->validate($request, [
+            'name' => 'required',
+            'slug' => 'required',
+            'body' => 'required',
+            'excerpt' => 'required',
+
+            'user_id' => 'required',
+
+            'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $post = new Post();
+        $post->name = $request->get('name');
+        $post->slug = $request->get('slug');
+        $post->body = $request->get('body');
+        $post->excerpt = $request->get('excerpt');
+        $post->published_at = Carbon::createFromFormat('d/m/Y',$request->get('published_at'))->format('Y-m-d');
+        //$post->published_at = Carbon::parse($request->get('published_at'))->format('Y-m-d');
+        $post->category_id = $request->get('category_id');
+        $post->user_id = $request->get('user_id');
+        
+        $foto = $request->file('foto');
+        $fotoNombre = time().'.'.$foto->extension();
+        $foto->move(public_path('img'),$fotoNombre);
+        $post->foto = $fotoNombre;
+        
+        
+        $post->update();
+
+        $post->tags()->syng($request->get('tags'));
+
+        return back()->with('success', 'Publicacion Actualizada correctamente');
     }
 }
