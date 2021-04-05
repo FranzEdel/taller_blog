@@ -1,23 +1,20 @@
 @extends('admin.layout')
 
 @section('content')
-    <!-- Content Header (Page header) -->
+<!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Todas las publicaciones</h1>
+                    <h1 class="m-0 text-dark">Destaller del Post: {{ $post->name }}</h1>
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item">
-                            <a href="{{ route('admin.posts.create') }}" class="btn btn-sm btn-success pull-right">
-                                <i class="fa fa-plus"></i> Nuevo Articulo
-                            </a>
-                        </li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Inicio</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.posts.index') }}">Posts</a></li>
+                        <li class="breadcrumb-item active">Detalle</li>
                     </ol>
-                    
                 </div>
                 <!-- /.col -->
             </div>
@@ -31,18 +28,63 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-md-8">
                     <div class="card card-primary card-outline table-responsive">
                         <div class="card-body">
-                           Titulo: {{ $post->name }}
-                           Titulo: {{ $post->body }}
-                           Titulo: {{ $post->category->name }}
-                          </div>
-                          <!-- /.card-body -->
+                            
+                            <div class="form-group row">
+                                <label class="col-sm-5 col-form-label">Titulo de la publicación: </label>
+                                <p>{{ $post->name }}</p>
+                                    
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-5 col-form-label">Fecha de publicación: </label>
+                                <p>{{ $post->published_at }}</p>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-5 col-form-label" for="category_id">Categorías: </label>
+                                {{ $post->category->name }}
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-5 col-form-label">Contenido completo de la publicación: </label>
+                                {!! $post->body !!}
+                            </div>
+
+                           
+
+                        </div>
                     </div>
-                    <!-- /.card -->
                 </div>
-                <!-- /.col-md-6 -->
+
+                <div class="col-md-4">
+                    <div class="card card-primary card-outline table-responsive">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <img src="{{ asset('img') }}/{{ $post->foto }}" style="max-width: 270px; margin-top: 5px;">
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-5 col-form-label">Etiquetas: </label>
+                                <ul>
+                                    @foreach($post->tags as $tag)
+                                    <li>{{ $tag->name }}</li>
+                                    @endforeach
+                                </ul>
+                                
+                            </div>
+
+                            <div class="form-group">
+                                <a href="{{ route('admin.posts.index') }}" class="btn btn-primary btn-sm">Todos los Post</a>
+                                <a href="{{ route('admin.posts.edit',$post->id) }}" class="btn btn-success btn-sm">Editar</a>
+                                <a href="#" class="btn btn-danger btn-sm">Eliminar</a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- /.row -->
         </div>
@@ -51,49 +93,5 @@
     <!-- /.content -->
 @endsection
 
-@push('styles')
-    <link rel="stylesheet" href=" {{ asset('/adminlte/datatables/buttons.dataTables.min.css') }}">
-    <link rel="stylesheet" href=" {{ asset('/adminlte/datatables/jquery.dataTables.min.css') }}">
-    <link rel="stylesheet" href=" {{ asset('/adminlte/datatables/responsive.dataTables.min.css') }}">
-@endpush
 
-@push('scripts')
-    <script src="{{ asset('/adminlte/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('/adminlte/datatables/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('/adminlte/datatables/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('/adminlte/datatables/buttons.colVis.min.js') }}"></script>
-    <script src="{{ asset('/adminlte/datatables/jszip.min.js') }}"></script>
-    <script src="{{ asset('/adminlte/datatables/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('/adminlte/datatables/vfs_fonts.js') }}"></script>
-    <script>
-        $(function () {
-            $('#tblistado').dataTable({
-                "aProcessing": true, //activa el dataTable
-                "aServerSide": true, // Paginacion y filtrado
-                dom: "Bfrtip", // Elementos de control
-                buttons: [
-                    'copyHtml5',
-                    'excelHtml5',
-                    'csvHtml5',
-                    'pdf'
-                ],
-                "bDestroy": true,
-                "iDisplayLength": 5, //Paginacion
-                "order": [
-                    [0, "desc"]
-                ],
-                language: {
-                    search: "Buscar:"
-                },
-                "ajax": '{{ route("admin.posts.list") }}',
-                "columns": [
-                    {data: 'id'},
-                    {data: 'category'},
-                    {data: 'name'},
-                    {data: 'excerpt'},
-                    {data: 'actions'},
-                ],
-            })
-        });
-    </script>
-@endpush
+

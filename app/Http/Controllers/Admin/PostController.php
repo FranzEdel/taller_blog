@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -93,7 +94,7 @@ class PostController extends Controller
         return view('admin.posts.edit', compact('post','categories', 'tags'));
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         //dd($request->get('foto'));
         // validaciones
@@ -108,7 +109,8 @@ class PostController extends Controller
             'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $post = new Post();
+        $post = Post::find($id);
+        //return $post->foto;
         $post->name = $request->get('name');
         $post->slug = $request->get('slug');
         $post->body = $request->get('body');
@@ -118,16 +120,19 @@ class PostController extends Controller
         $post->category_id = $request->get('category_id');
         $post->user_id = $request->get('user_id');
         
-        $foto = $request->file('foto');
-        $fotoNombre = time().'.'.$foto->extension();
-        $foto->move(public_path('img'),$fotoNombre);
-        $post->foto = $fotoNombre;
+        if($request->hasFile('foto'))
+        {
+            Storage::delete(public_path('img/').$post->foto);
+            $foto = $request->file('foto');
+            $fotoNombre = time().'.'.$foto->extension();
+            $foto->move(public_path('img'),$fotoNombre);
+            $post->foto = $fotoNombre;
+        }
         
-        
-        $post->update();
+        $post->save();
 
-        $post->tags()->syng($request->get('tags'));
+        $post->tags()->sync($request->get('tags'));
 
-        return back()->with('success', 'Publicacion Actualizada correctamente');
+        return redirect()->route('admin.posts.index')->with('success', 'Publicacion Actualizada correctamente');
     }
 }

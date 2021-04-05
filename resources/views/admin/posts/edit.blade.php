@@ -27,8 +27,9 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-        	<form action="{{ route('admin.posts.update',$post) }}" method="POST" enctype="multipart/form-data">
+        	<form action="{{ route('admin.posts.update',$post->id) }}" method="POST" enctype="multipart/form-data">
         		{{  @csrf_field() }}
+				@method('PUT')
 	            <div class="row">
 	            	
 	                <div class="col-md-7">
@@ -115,7 +116,7 @@
 	                			</div>
 
 	                			<div class="form-group">
-	                				<button type="submit" class="btn btn-primary btn-block">Guardar Publicación</button>
+	                				<button type="submit" class="btn btn-primary btn-block">Actualizar Publicación</button>
 	                			</div>
 	                			
 	                  		</div>
@@ -209,18 +210,6 @@
     	}
 	</script>
 	
-	@if (Session::has('success'))
-		<script>
-			Swal.fire({
-				position: 'center',
-				icon: 'success',
-				title: 'Correcto!',
-				text: '{{ Session::get('success') }}',
-				showConfirmButton: false,
-				timer: 3000
-			})
-		</script>
-	@endif
 @endpush
 
 

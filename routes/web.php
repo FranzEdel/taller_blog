@@ -32,7 +32,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
     Route::get('/posts/create', [PostController::class, 'create'])->name('admin.posts.create');
     Route::post('/posts', [PostController::class, 'store'])->name('admin.posts.store');
    
-    Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('admin.posts.edit');
+    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('admin.posts.edit');
     Route::put('/posts/{id}', [PostController::class, 'update'])->name('admin.posts.update');
 });
 

@@ -104,4 +104,17 @@
             })
         });
     </script>
+
+    @if (Session::has('success'))
+    <script>
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Correcto!',
+            text: '{{ Session::get('success') }}',
+            showConfirmButton: false,
+            timer: 3000
+        })
+    </script>
+    @endif
 @endpush
