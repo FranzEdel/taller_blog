@@ -10,7 +10,9 @@
                       <span class="c-gray-1">{{ $post->published_at->format('M d') }}</span>
                   </div>
                   <div class="post-category">
+                    <a href="{{ route('category', $post->category->slug) }}">
                       <span class="category text-capitalize">{{ $post->category->name }}</span>
+                    </a>
                   </div>
               </header>
               
@@ -28,9 +30,9 @@
                   </div>
                   <div class="tags container-flex">
                   @foreach($post->tags as $tag)
+                    <a href="{{ route('tag', $tag->slug) }}">
                       <span class="tag c-gray-1 text-capitalize">#{{ $tag->name }}</span>
-                      <!-- <span class="tag c-gray-1 text-capitalize">#peak</span>
-                      <span class="tag c-gray-1 text-capitalize">#photo</span> -->
+                    </a>
                   @endforeach
                   </div>
               </footer>

@@ -8,7 +8,9 @@ use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use App\Http\Requests\PostStoreRequest;
+use App\Http\Requests\PostUpdateRequest;
 
 class PostController extends Controller
 {
@@ -24,7 +26,8 @@ class PostController extends Controller
                 $actionBtn = '
                     <a href="'. route('admin.posts.show',$post->id) .'" class="btn btn-xs btn-default" title="Ver"><i class="fa fa-eye"></i></a>
                     <a href="'. route('admin.posts.edit',$post->id) .'" class="btn btn-xs btn-info" title="Editar"><i class="fa fa-pencil-alt"></i></a>
-                    <a href="javascript:void(0)" class="btn btn-xs btn-danger" title="Eliminar"><i class="fa fa-times"></i></a>
+                    <button type="submit" onclick="eliminar('.$post->id.')" class="btn btn-xs btn-danger" title="Eliminar"><i class="fa fa-times"></i></button>
+ 
                 ';
                 return $actionBtn;
             })
@@ -48,21 +51,8 @@ class PostController extends Controller
         return view('admin.posts.create', compact('categories', 'tags'));
     }
 
-    public function store(Request $request)
+    public function store(PostStoreRequest $request)
     {
-        //dd($request->get('foto'));
-        // validaciones
-        $this->validate($request, [
-            'name' => 'required',
-            'slug' => 'required',
-            'body' => 'required',
-            'excerpt' => 'required',
-            'category_id' => 'required',
-            'user_id' => 'required',
-            'tags' => 'required',
-            'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-
         $post = new Post();
         $post->name = $request->get('name');
         $post->slug = $request->get('slug');
@@ -94,21 +84,8 @@ class PostController extends Controller
         return view('admin.posts.edit', compact('post','categories', 'tags'));
     }
 
-    public function update(Request $request, $id)
+    public function update(PostUpdateRequest $request, $id)
     {
-        //dd($request->get('foto'));
-        // validaciones
-        $this->validate($request, [
-            'name' => 'required',
-            'slug' => 'required',
-            'body' => 'required',
-            'excerpt' => 'required',
-
-            'user_id' => 'required',
-
-            'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-
         $post = Post::find($id);
         //return $post->foto;
         $post->name = $request->get('name');
@@ -122,7 +99,7 @@ class PostController extends Controller
         
         if($request->hasFile('foto'))
         {
-            Storage::delete(public_path('img/').$post->foto);
+            File::delete(public_path('img/').$post->foto);
             $foto = $request->file('foto');
             $fotoNombre = time().'.'.$foto->extension();
             $foto->move(public_path('img'),$fotoNombre);
@@ -134,5 +111,20 @@ class PostController extends Controller
         $post->tags()->sync($request->get('tags'));
 
         return redirect()->route('admin.posts.index')->with('success', 'Publicacion Actualizada correctamente');
+    }
+
+    public function destroy($id)
+    {
+        $post = Post::find($id);
+
+        if(File::exists(public_path('img/').$post->foto))
+        {
+            File::delete(public_path('img/').$post->foto);
+        }
+
+        $post->delete();
+
+        return response()->json(['status' => 'Post eliminado correctamente']);
+
     }
 }

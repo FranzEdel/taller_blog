@@ -13,6 +13,8 @@ FRONTEND
 Route::redirect('/', '/blog');
 Route::get('/blog', [PageController::class, 'blog'])->name('blog');
 Route::get('/blog/{post}', [PageController::class, 'show'])->name('show');
+Route::get('/categoria/{slug}', [PageController::class, 'category'])->name('category');
+Route::get('/etiqueta/{slug}', [PageController::class, 'tag'])->name('tag');
 
 
 /*
@@ -34,6 +36,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
    
     Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('admin.posts.edit');
     Route::put('/posts/{id}', [PostController::class, 'update'])->name('admin.posts.update');
+
+    Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('admin.posts.destroy');
 });
 
 

@@ -63,6 +63,8 @@
     <link rel="stylesheet" href=" {{ asset('/adminlte/datatables/buttons.dataTables.min.css') }}">
     <link rel="stylesheet" href=" {{ asset('/adminlte/datatables/jquery.dataTables.min.css') }}">
     <link rel="stylesheet" href=" {{ asset('/adminlte/datatables/responsive.dataTables.min.css') }}">
+    {{-- <link rel="stylesheet" href=" {{ asset('/adminlte/datatables/dataTables.bootstrap4.min.css') }}"> --}}
+    <link rel="stylesheet" href=" {{ asset('/adminlte/datatables/responsive.bootstrap4.min.css') }}">
 @endpush
 
 @push('scripts')
@@ -73,9 +75,16 @@
     <script src="{{ asset('/adminlte/datatables/jszip.min.js') }}"></script>
     <script src="{{ asset('/adminlte/datatables/pdfmake.min.js') }}"></script>
     <script src="{{ asset('/adminlte/datatables/vfs_fonts.js') }}"></script>
+
+    <script src="{{ asset('/adminlte/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('/adminlte/datatables/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('/adminlte/datatables/responsive.bootstrap4.min.js') }}"></script>
+    
     <script>
         $(function () {
             $('#tblistado').dataTable({
+                responsive: true,
+                autoWidth: false,
                 "aProcessing": true, //activa el dataTable
                 "aServerSide": true, // Paginacion y filtrado
                 dom: "Bfrtip", // Elementos de control
@@ -91,7 +100,15 @@
                     [0, "desc"]
                 ],
                 language: {
-                    search: "Buscar:"
+                    search: "Buscar:",
+                    "info": "Mostrando la pagina _PAGE_ de _PAGES_ ",
+                    "loadingRecords": "Cargando...",
+                                    "paginate": {
+                        "first":      "Primero",
+                        "last":       "Ultimo",
+                        "next":       "Siguiente",
+                        "previous":   "Anterior"
+                    },
                 },
                 "ajax": '{{ route("admin.posts.list") }}',
                 "columns": [
@@ -117,4 +134,50 @@
         })
     </script>
     @endif
+
+    <script>
+        function eliminar(id)
+        {
+            //alert(id);
+            var token = '{{ csrf_token() }}';
+            var url = '{{ route("admin.posts.destroy", ":id") }}';
+            url = url.replace(':id', id);
+
+            Swal.fire({
+                title: '¿Esta seguro?',
+                text: "El Post se eliminar definitivamente!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, Eliminar!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    
+                    var data = {
+                        '_token':token,
+                        'id':id,
+                    };
+                    $.ajax({
+                        type:'DELETE',
+                        url:url,
+                        data:data,
+                        success: function(response){
+                            Swal.fire(
+                                'Eliminado!',
+                                response.status,
+                                'success'
+                            )
+                            .then((result) => {
+                                $('#tblistado').DataTable().ajax.reload();
+                            });
+                        }
+                    });
+                    
+                }
+            })
+        }
+    </script>
+
 @endpush
