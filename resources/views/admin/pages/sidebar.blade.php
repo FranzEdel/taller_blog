@@ -25,14 +25,14 @@
           
           <li class="nav-item">
             <a href="{{ route('dashboard') }}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-home"></i>
               <p>Inicio</p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="{{ route('admin.posts.index') }}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-file"></i>
               <p>Articulos</p>
             </a>
           </li>
@@ -45,15 +45,15 @@
           </li>
 
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+            <a href="{{ route('admin.tags.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-tags"></i>
               <p>Etiquetas</p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-users"></i>
               <p>Usuarios</p>
             </a>
           </li>

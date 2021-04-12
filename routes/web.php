@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
 
 use App\Http\Controllers\Web\PageController;
+use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\PostController;
 /*
 FRONTEND
@@ -25,7 +26,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
     Route::get('/', function(){
         return view('admin.dashboard');
     })->name('dashboard');
-    
+    // Post
     Route::get('/posts', [PostController::class, 'index'])->name('admin.posts.index');
     Route::get('/posts/list', [PostController::class, 'getPosts'])->name('admin.posts.list');
    
@@ -38,6 +39,18 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
     Route::put('/posts/{id}', [PostController::class, 'update'])->name('admin.posts.update');
 
     Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('admin.posts.destroy');
+   
+    // Tag
+    Route::get('/tags', [TagController::class, 'index'])->name('admin.tags.index');
+    Route::get('/tags/list', [TagController::class, 'getTags'])->name('admin.tags.list');
+      
+    Route::get('/tags/create', [TagController::class, 'create'])->name('admin.tags.create');
+    Route::post('/tags', [TagController::class, 'store'])->name('admin.tags.store');
+   
+    Route::get('/tags/{tag}/edit', [TagController::class, 'edit'])->name('admin.tags.edit');
+    Route::put('/tags/{id}', [TagController::class, 'update'])->name('admin.tags.update');
+
+    Route::delete('/tags/{id}', [TagController::class, 'destroy'])->name('admin.tags.destroy');
 });
 
 
