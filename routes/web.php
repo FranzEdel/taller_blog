@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\Web\PageController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\CategoryController;
 /*
 FRONTEND
 */
@@ -51,6 +52,20 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
     Route::put('/tags/{id}', [TagController::class, 'update'])->name('admin.tags.update');
 
     Route::delete('/tags/{id}', [TagController::class, 'destroy'])->name('admin.tags.destroy');
+
+    // Category
+    Route::get('/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
+    Route::get('/categories/list', [CategoryController::class, 'getCategories'])->name('admin.categories.list');
+
+    Route::get('/categories/show/{id}', [CategoryController::class, 'show'])->name('admin.categories.show');
+      
+    Route::get('/categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
+    Route::post('/categories', [CategoryController::class, 'store'])->name('admin.categories.store');
+   
+    Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
+    Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('admin.categories.update');
+
+    Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
 });
 
 
