@@ -50,12 +50,28 @@
               <p>Etiquetas</p>
             </a>
           </li>
-
-          <li class="nav-item">
+          <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
-              <p>Usuarios</p>
+              <i class="nav-icon fas fa-edit"></i>
+              <p>
+                Administración
+                <i class="fas fa-angle-left right"></i>
+              </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('admin.users.index') }}" class="nav-link">
+                  <i class="nav-icon fas fa-users"></i>
+                  <p>Usuarios</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="far fa-registered"></i>
+                  <p>Roles</p>
+                </a>
+              </li>
+            </ul>
           </li>
 
         </ul>

@@ -18,14 +18,22 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => 'Franz Edel',
-            'email' => 'franz@mail.com',
+            'name' => 'Admin',
+            'email' => 'admin@mail.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('franzedel'),
+            'password' => Hash::make('admin123'),
             'remember_token' => Str::random(10),
-        ]);
+        ])->assignRole('Super_Admin');
+
+        User::create([
+            'name' => 'test',
+            'email' => 'test@mail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('test123'),
+            'remember_token' => Str::random(10),
+        ])->assignRole('Lista_de_Post');
         
-        User::factory()->count(29)->create();
+        User::factory()->count(28)->create();
 
         
     }

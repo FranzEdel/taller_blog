@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\Web\PageController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CategoryController;
 /*
 FRONTEND
@@ -66,6 +67,20 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
     Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('admin.categories.update');
 
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+
+    // User
+    Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
+    Route::get('/users/list', [UserController::class, 'getUsers'])->name('admin.users.list');
+
+    Route::get('/users/show/{id}', [UserController::class, 'show'])->name('admin.users.show');
+      
+    Route::get('/users/create', [UserController::class, 'create'])->name('admin.users.create');
+    Route::post('/users', [UserController::class, 'store'])->name('admin.users.store');
+   
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('admin.users.update');
+
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('admin.users.destroy');
 });
 
 
