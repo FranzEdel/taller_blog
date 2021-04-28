@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\Web\PageController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CategoryController;
 /*
@@ -81,6 +82,21 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
     Route::put('/users/{id}', [UserController::class, 'update'])->name('admin.users.update');
 
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('admin.users.destroy');
+
+
+    // Roles
+    Route::get('/roles', [RoleController::class, 'index'])->name('admin.roles.index');
+    Route::get('/roles/list', [RoleController::class, 'getRoles'])->name('admin.roles.list');
+
+    Route::get('/roles/show/{id}', [RoleController::class, 'show'])->name('admin.roles.show');
+      
+    Route::get('/roles/create', [RoleController::class, 'create'])->name('admin.roles.create');
+    Route::post('/roles', [RoleController::class, 'store'])->name('admin.roles.store');
+   
+    Route::get('/roles/{user}/edit', [RoleController::class, 'edit'])->name('admin.roles.edit');
+    Route::put('/roles/{id}', [RoleController::class, 'update'])->name('admin.roles.update');
+
+    Route::delete('/roles/{id}', [RoleController::class, 'destroy'])->name('admin.roles.destroy');
 });
 
 

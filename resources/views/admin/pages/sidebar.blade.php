@@ -50,7 +50,7 @@
               <p>Etiquetas</p>
             </a>
           </li>
-          <li class="nav-item has-treeview">
+          <li class="nav-item has-treeview {{ request()->is(['admin/users*','admin/roles*']) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
               <p>
@@ -66,7 +66,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{ route('admin.roles.index') }}" class="nav-link">
                   <i class="far fa-registered"></i>
                   <p>Roles</p>
                 </a>

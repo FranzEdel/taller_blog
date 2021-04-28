@@ -6,14 +6,14 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Administración de Usuarios</h1>
+                    <h1 class="m-0 text-dark">Administracion de Roles y Permisos</h1>
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.users.create') }}" class="btn btn-sm btn-success pull-right">
-                                <i class="fa fa-plus"></i> Nuevo Usuario
+                            <a href="{{ route('admin.roles.create') }}" class="btn btn-sm btn-success pull-right">
+                                <i class="fa fa-plus"></i> Nuevo Rol y Permisos
                             </a>
                         </li>
                     </ol>
@@ -39,8 +39,6 @@
                               <tr>
                                 <th>ID</th>
                                 <th>Nombre</th>
-                                <th>Email</th>
-                                <th>Rol</th>
                                 <th>Acciones</th>
                               </tr>
                               </thead>
@@ -97,7 +95,7 @@
                 "bDestroy": true,
                 "iDisplayLength": 5, //Paginacion
                 "order": [
-                    [0, "asc"]
+                    [0, "desc"]
                 ],
                 language: {
                     search: "Buscar:",
@@ -110,12 +108,10 @@
                         "previous":   "Anterior"
                     },
                 },
-                "ajax": '{{ route("admin.users.list") }}',
+                "ajax": '{{ route("admin.roles.list") }}',
                 "columns": [
                     {data: 'id'},
                     {data: 'name'},
-                    {data: 'email'},
-                    {data: 'roles'},
                     {data: 'actions'},
                 ],
             })
@@ -140,12 +136,12 @@
         {
             //alert(id);
             var token = '{{ csrf_token() }}';
-            var url = '{{ route("admin.users.destroy", ":id") }}';
+            var url = '{{ route("admin.roles.destroy", ":id") }}';
             url = url.replace(':id', id);
 
             Swal.fire({
                 title: '¿Esta seguro?',
-                text: "El Usuario se eliminar definitivamente!",
+                text: "El Rol se eliminar definitivamente!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
