@@ -14,6 +14,15 @@ use App\Http\Requests\PostUpdateRequest;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:admin.posts.index')->only('index');
+        $this->middleware('can:admin.posts.show')->only('show');
+        $this->middleware('can:admin.posts.create')->only('create','store');
+        $this->middleware('can:admin.posts.edit')->only('edit','update');
+        $this->middleware('can:admin.posts.destroy')->only('destroy');
+    }
+
     public function index()
     {
         return view('admin.posts.index');
@@ -23,12 +32,34 @@ class PostController extends Controller
     {
         return datatables()->of(Post::all())
             ->addColumn('actions', function($post){
-                $actionBtn = '
+                
+                $actionBtn = '';
+
+                if(auth()->user()->can('admin.posts.show'))
+                {
+                    $actionBtn = $actionBtn . '<a href="'. route('admin.posts.show',$post->id) .'" class="btn btn-xs btn-default" title="Ver"><i class="fa fa-eye"></i></a>';
+                }
+
+                if(auth()->user()->can('admin.posts.edit'))
+                {
+                    $actionBtn = $actionBtn . '<a href="'. route('admin.posts.edit',$post->id) .'" class="btn btn-xs btn-info" title="Editar"><i class="fa fa-pencil-alt"></i></a>';
+                }
+
+                if(auth()->user()->can('admin.posts.destroy'))
+                {
+                    $actionBtn = $actionBtn . '<button type="submit" onclick="eliminar('.$post->id.')" class="btn btn-xs btn-danger" title="Eliminar"><i class="fa fa-times"></i></button>';
+                }
+        
+
+                /* $actionBtn = '
+
                     <a href="'. route('admin.posts.show',$post->id) .'" class="btn btn-xs btn-default" title="Ver"><i class="fa fa-eye"></i></a>
+
                     <a href="'. route('admin.posts.edit',$post->id) .'" class="btn btn-xs btn-info" title="Editar"><i class="fa fa-pencil-alt"></i></a>
+                    
                     <button type="submit" onclick="eliminar('.$post->id.')" class="btn btn-xs btn-danger" title="Eliminar"><i class="fa fa-times"></i></button>
  
-                ';
+                '; */
                 return $actionBtn;
             })
             ->addColumn('category', function($post){

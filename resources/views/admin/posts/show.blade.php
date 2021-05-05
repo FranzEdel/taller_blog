@@ -77,9 +77,15 @@
                             </div>
 
                             <div class="form-group">
+                                @can('admin.posts.index')
                                 <a href="{{ route('admin.posts.index') }}" class="btn btn-primary btn-sm">Todos los Post</a>
+                                @endcan
+                                @can('admin.posts.edit')
                                 <a href="{{ route('admin.posts.edit',$post->id) }}" class="btn btn-success btn-sm">Editar</a>
+                                @endcan
+                                @can('admin.posts.destroy')
                                 <a href="#" class="btn btn-danger btn-sm">Eliminar</a>
+                                @endcan
                             </div>
                             
                         </div>

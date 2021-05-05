@@ -29,19 +29,23 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
     Route::get('/', function(){
         return view('admin.dashboard');
     })->name('dashboard');
+    
     // Post
-    Route::get('/posts', [PostController::class, 'index'])->name('admin.posts.index');
+    Route::resource('/posts', PostController::class)->names('admin.posts');
+    //Route::get('/posts', [PostController::class, 'index'])->name('admin.posts.index');
     Route::get('/posts/list', [PostController::class, 'getPosts'])->name('admin.posts.list');
-   
-    Route::get('/posts/show/{id}', [PostController::class, 'show'])->name('admin.posts.show');
-   
-    Route::get('/posts/create', [PostController::class, 'create'])->name('admin.posts.create');
-    Route::post('/posts', [PostController::class, 'store'])->name('admin.posts.store');
-   
-    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('admin.posts.edit');
-    Route::put('/posts/{id}', [PostController::class, 'update'])->name('admin.posts.update');
 
-    Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('admin.posts.destroy');
+    //Route::get('/posts/show/{id}', [PostController::class, 'show'])->name('admin.posts.show');
+
+    //Route::get('/posts/create', [PostController::class, 'create'])->name('admin.posts.create');
+    //Route::post('/posts', [PostController::class, 'store'])->name('admin.posts.store');
+
+    //Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('admin.posts.edit');
+    //Route::put('/posts/{id}', [PostController::class, 'update'])->name('admin.posts.update');
+
+    //Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('admin.posts.destroy');
+
+    
    
     // Tag
     Route::get('/tags', [TagController::class, 'index'])->name('admin.tags.index');
@@ -56,18 +60,19 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
     Route::delete('/tags/{id}', [TagController::class, 'destroy'])->name('admin.tags.destroy');
 
     // Category
-    Route::get('/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
+    Route::resource('/categories', CategoryController::class)->names('admin.categories');
+    //Route::get('/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
     Route::get('/categories/list', [CategoryController::class, 'getCategories'])->name('admin.categories.list');
 
-    Route::get('/categories/show/{id}', [CategoryController::class, 'show'])->name('admin.categories.show');
+   // Route::get('/categories/show/{id}', [CategoryController::class, 'show'])->name('admin.categories.show');
       
-    Route::get('/categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
-    Route::post('/categories', [CategoryController::class, 'store'])->name('admin.categories.store');
+    //Route::get('/categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
+    //Route::post('/categories', [CategoryController::class, 'store'])->name('admin.categories.store');
    
-    Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
-    Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('admin.categories.update');
+    //Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
+    //Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('admin.categories.update');
 
-    Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+    //Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
 
     // User
     Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');

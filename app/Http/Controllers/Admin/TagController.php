@@ -10,6 +10,15 @@ use App\Http\Requests\TagUpdateRequest;
 
 class TagController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:admin.tags.index')->only('index');
+        $this->middleware('can:admin.tags.show')->only('show');
+        $this->middleware('can:admin.tags.create')->only('create','store');
+        $this->middleware('can:admin.tags.edit')->only('edit','update');
+        $this->middleware('can:admin.tags.destroy')->only('destroy');
+    }
+
     public function index()
     {
         return view('admin.tags.index');

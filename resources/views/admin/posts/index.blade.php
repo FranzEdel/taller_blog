@@ -11,11 +11,13 @@
                 <!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
+                        @can('admin.posts.create')
                         <li class="breadcrumb-item">
                             <a href="{{ route('admin.posts.create') }}" class="btn btn-sm btn-success pull-right">
                                 <i class="fa fa-plus"></i> Nuevo Articulo
                             </a>
                         </li>
+                        @endcan
                     </ol>
                     
                 </div>
@@ -41,7 +43,9 @@
                                 <th>Categoria</th>
                                 <th>Título</th>
                                 <th>Estracto</th>
+                                @canany(['admin.posts.show','admin.posts.edit','admin.posts.destroy'])
                                 <th>Acciones</th>
+                                @endcan
                               </tr>
                               </thead>
                             </table>

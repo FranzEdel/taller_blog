@@ -29,27 +29,31 @@
               <p>Inicio</p>
             </a>
           </li>
-
+          @canany(['admin.posts.index','admin.posts.create','admin.posts.edit','admin.posts.destroy'])
           <li class="nav-item">
             <a href="{{ route('admin.posts.index') }}" class="nav-link">
               <i class="nav-icon fas fa-file"></i>
               <p>Articulos</p>
             </a>
           </li>
-
+          @endcan
+          @canany(['admin.categories.index','admin.categories.create','admin.categories.edit','admin.categories.destroy'])
           <li class="nav-item">
             <a href="{{ route('admin.categories.index') }}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>Categorias</p>
             </a>
           </li>
-
+          @endcan
+          @canany(['admin.tags.index','admin.tags.create','admin.tags.edit','admin.tags.destroy'])
           <li class="nav-item">
             <a href="{{ route('admin.tags.index') }}" class="nav-link">
               <i class="nav-icon fas fa-tags"></i>
               <p>Etiquetas</p>
             </a>
           </li>
+          @endcan
+          @role('Super_Admin')
           <li class="nav-item has-treeview {{ request()->is(['admin/users*','admin/roles*']) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
@@ -59,6 +63,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+
               <li class="nav-item">
                 <a href="{{ route('admin.users.index') }}" class="nav-link">
                   <i class="nav-icon fas fa-users"></i>
@@ -73,7 +78,7 @@
               </li>
             </ul>
           </li>
-
+          @endrole
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
