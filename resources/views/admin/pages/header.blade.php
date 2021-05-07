@@ -37,6 +37,11 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
+        <a class="nav-link" href="{{ route('blog') }}">
+          <i class="fas fa-sign-out-alt"></i> Pagina principal
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="{{ route('logout') }}">
           <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
         </a>

@@ -28,12 +28,24 @@ class UserController extends Controller
     {
         return datatables()->of(User::all())
             ->addColumn('actions', function($user){
-                $actionBtn = '
-                    <a href="'. route('admin.users.show',$user->id) .'" class="btn btn-xs btn-default" title="Ver"><i class="fa fa-eye"></i></a>
-                    <a href="'. route('admin.users.edit',$user->id) .'" class="btn btn-xs btn-info" title="Editar"><i class="fa fa-pencil-alt"></i></a>
-                    <button type="submit" onclick="eliminar('.$user->id.')" class="btn btn-xs btn-danger" title="Eliminar"><i class="fa fa-times"></i></button>
- 
-                ';
+                
+                $actionBtn = '';
+
+                if(auth()->user()->can('admin.users.show'))
+                {
+                    $actionBtn = $actionBtn . '<a href="'. route('admin.users.show',$user->id) .'" class="btn btn-xs btn-default" title="Ver"><i class="fa fa-eye"></i></a>';
+                }
+
+                if(auth()->user()->can('admin.users.edit'))
+                {
+                    $actionBtn = $actionBtn . '<a href="'. route('admin.users.edit',$user->id) .'" class="btn btn-xs btn-info" title="Editar"><i class="fa fa-pencil-alt"></i></a>';
+                }
+
+                if(auth()->user()->can('admin.users.destroy'))
+                {
+                    $actionBtn = $actionBtn . '<button type="submit" onclick="eliminar('.$user->id.')" class="btn btn-xs btn-danger" title="Eliminar"><i class="fa fa-times"></i></button>';
+                }
+
                 return $actionBtn;
             })
             ->addColumn('roles', function($user){

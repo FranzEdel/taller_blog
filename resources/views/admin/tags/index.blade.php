@@ -40,6 +40,7 @@
                                 <th>ID</th>
                                 <th>Nombre</th>
                                 <th>Slug</th>
+                                <th>Acciones</th>
                               </tr>
                               </thead>
                             </table>

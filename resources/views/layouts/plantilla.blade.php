@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<title>Zendero</title>
+	<title>{{ config('app.name') }}</title>
 	<link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/framework.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/style.css') }}">
@@ -25,7 +25,13 @@
 					<li><a href="#" class="text-uppercase">About</a></li>
 					<li><a href="#" class="text-uppercase">Archive</a></li>
 					<li><a href="#" class="text-uppercase">Contact</a></li>
+					@guest
 					<li><a href="{{ route('login') }}" class="text-uppercase">Login</a></li>
+					@else
+					<li><a href="{{ route('dashboard') }}" class="text-uppercase">Administracion</a></li>
+					<li><a href="{{ route('logout') }}" class="text-uppercase">Cerrar Sesion</a></li>
+					@endguest 
+					
 				</ul>
 			</nav>
 		</div>

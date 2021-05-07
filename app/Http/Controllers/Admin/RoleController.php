@@ -27,12 +27,24 @@ class RoleController extends Controller
     {
         return datatables()->of(Role::all())
             ->addColumn('actions', function($role){
-                $actionBtn = '
-                    <a href="'. route('admin.roles.show',$role->id) .'" class="btn btn-xs btn-default" title="Ver"><i class="fa fa-eye"></i></a>
-                    <a href="'. route('admin.roles.edit',$role->id) .'" class="btn btn-xs btn-info" title="Editar"><i class="fa fa-pencil-alt"></i></a>
-                    <button type="submit" onclick="eliminar('.$role->id.')" class="btn btn-xs btn-danger" title="Eliminar"><i class="fa fa-times"></i></button>
- 
-                ';
+                
+                $actionBtn = '';
+
+                if(auth()->user()->can('admin.roles.show'))
+                {
+                    $actionBtn = $actionBtn . '<a href="'. route('admin.roles.show',$role->id) .'" class="btn btn-xs btn-default" title="Ver"><i class="fa fa-eye"></i></a>';
+                }
+
+                if(auth()->user()->can('admin.roles.edit'))
+                {
+                    $actionBtn = $actionBtn . '<a href="'. route('admin.roles.edit',$role->id) .'" class="btn btn-xs btn-info" title="Editar"><i class="fa fa-pencil-alt"></i></a>';
+                }
+
+                if(auth()->user()->can('admin.roles.destroy'))
+                {
+                    $actionBtn = $actionBtn . '<button type="submit" onclick="eliminar('.$role->id.')" class="btn btn-xs btn-danger" title="Eliminar"><i class="fa fa-times"></i></button>';
+                }
+
                 return $actionBtn;
             })
             ->rawColumns(['actions'])

@@ -28,12 +28,24 @@ class CategoryController extends Controller
     {
         return datatables()->of(Category::all())
             ->addColumn('actions', function($category){
-                $actionBtn = '
-                    <a href="'. route('admin.categories.show',$category->id) .'" class="btn btn-xs btn-default" title="Ver"><i class="fa fa-eye"></i></a>
-                    <a href="'. route('admin.categories.edit',$category->id) .'" class="btn btn-xs btn-info" title="Editar"><i class="fa fa-pencil-alt"></i></a>
-                    <button type="submit" onclick="eliminar('.$category->id.')" class="btn btn-xs btn-danger" title="Eliminar"><i class="fa fa-times"></i></button>
- 
-                ';
+                
+                $actionBtn = '';
+
+                if(auth()->user()->can('admin.categories.show'))
+                {
+                    $actionBtn = $actionBtn . '<a href="'. route('admin.categories.show',$category->id) .'" class="btn btn-xs btn-default" title="Ver"><i class="fa fa-eye"></i></a>';
+                }
+
+                if(auth()->user()->can('admin.categories.edit'))
+                {
+                    $actionBtn = $actionBtn . '<a href="'. route('admin.categories.edit',$category->id) .'" class="btn btn-xs btn-info" title="Editar"><i class="fa fa-pencil-alt"></i></a>';
+                }
+
+                if(auth()->user()->can('admin.categories.destroy'))
+                {
+                    $actionBtn = $actionBtn . '<button type="submit" onclick="eliminar('.$category->id.')" class="btn btn-xs btn-danger" title="Eliminar"><i class="fa fa-times"></i></button>';
+                }
+                
                 return $actionBtn;
             })
             ->rawColumns(['actions'])
